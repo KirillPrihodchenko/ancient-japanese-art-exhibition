@@ -22,4 +22,20 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private eRole role;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public eRole getRole() {
+        return role;
+    }
+
+    public void setRole(eRole role) {
+        this.role = role;
+    }
 }
