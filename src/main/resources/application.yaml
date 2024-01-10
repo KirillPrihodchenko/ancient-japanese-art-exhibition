@@ -1,12 +1,23 @@
 spring:
-
+  #-------------------- database --------------------#
   datasource:
-    url: 'jdbc:postgresql://localhost:5432/exhibition'
-    username: 'postgres'
-    password: 'password'
+    url: jdbc:postgresql://localhost:5432/exhibition
+    username: postgres
+    password: password
     driver-class-name: org.postgresql.Driver
-
   jpa:
     hibernate:
       ddl-auto: create-drop
 
+  #-------------------- cloud --------------------#
+  cloud:
+    aws:
+      s3:
+        region: eu-central-1
+        bucket:
+          customer: acient-japanese-exhibition
+      credentials:
+        access-key: <accessKey>
+        secret-key: <secretKey>
+      region:
+        static: eu-central-1

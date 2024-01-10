@@ -1,6 +1,7 @@
 package com.ancientjapaneseartexhibition.service;
 
 import com.ancientjapaneseartexhibition.dto.UserRequestDto;
+import com.ancientjapaneseartexhibition.exception.UserEmailNotFound;
 import com.ancientjapaneseartexhibition.model.Role;
 import com.ancientjapaneseartexhibition.model.User;
 import com.ancientjapaneseartexhibition.model.eRole;
@@ -22,7 +23,7 @@ public class UserService {
     public User addUser(UserRequestDto userRequestDto) {
 
         User user = new User();
-        Role defaultRole = roleRepository.findRoleBy(eRole.ROLE_USER);
+        Role defaultRole = roleRepository.findRoleByRole(eRole.ROLE_USER);
 
         user.setFullUsername(userRequestDto.getFullUsername());
         user.setEmail(userRequestDto.getEmail());
@@ -30,5 +31,28 @@ public class UserService {
         user.setRole(defaultRole);
 
         return userRepository.save(user);
+    }
+
+    public User updateUser(UserRequestDto userRequestDto, String email) {
+
+        existEmail(email);
+        User updateUser = userRepository.updateUserByEmail(email);
+
+        updateUser.setFullUsername(userRequestDto.getFullUsername());
+        updateUser.setEmail(userRequestDto.getEmail());
+        updateUser.setPassword(userRequestDto.getPassword());
+        updateUser.setRole(userRequestDto.getRole());
+
+        return userRepository.save(updateUser);
+    }
+
+    private void existEmail(String email) {
+
+        userRepository.findUserByEmail(email)
+                .orElseThrow(
+                        () -> new UserEmailNotFound(
+                                String.format("Email '%s' doesn't exist", email)
+                        )
+                );
     }
 }

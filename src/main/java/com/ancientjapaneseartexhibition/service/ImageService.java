@@ -1,9 +1,8 @@
 package com.ancientjapaneseartexhibition.service;
 
-import com.ancientjapaneseartexhibition.dto.ImageMapper;
-import com.ancientjapaneseartexhibition.dto.ImageRequestDto;
 import com.ancientjapaneseartexhibition.model.Image;
 import com.ancientjapaneseartexhibition.repository.ImageRepository;
+import com.ancientjapaneseartexhibition.s3.S3Service;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,11 +11,11 @@ import java.util.List;
 public class ImageService {
 
     private final ImageRepository imageRepository;
-    private final ImageMapper imageMapper;
+    private final S3Service s3Service;
 
-    public ImageService(ImageRepository imageRepository, ImageMapper imageMapper) {
+    public ImageService(ImageRepository imageRepository, S3Service s3Service) {
         this.imageRepository = imageRepository;
-        this.imageMapper = imageMapper;
+        this.s3Service = s3Service;
     }
 
     public List<Image> getAllImage() {
@@ -24,16 +23,15 @@ public class ImageService {
         return imageRepository.findAll();
     }
 
-    public Image addImage(ImageRequestDto imageRequestDto) {
+    public Image addImage(Image image, String bucketName, String key) {
 
-        Image image = imageMapper.convertToEntity(imageRequestDto);
+        String imageUrl = s3Service.getUrlToObject(bucketName, key);
+
+        Image newImage = new Image();
+        newImage.setName(image.getName());
+        newImage.setUrl(imageUrl);
+        newImage.setDescription(image.getDescription());
+
         return imageRepository.save(image);
     }
-
-    /**
-     * this method will be implemented on the frontend of the button layer
-     * */
-//    public void deleteById() {
-//        System.out.println("image deleted successfully!");
-//    }
 }
