@@ -17,7 +17,7 @@ spring:
         bucket:
           customer: acient-japanese-exhibition
       credentials:
-        access-key: <accessKey>
-        secret-key: <secretKey>
+        access-key: AKIAWPJY35TPODFLZIXB
+        secret-key: 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
       region:
         static: eu-central-1

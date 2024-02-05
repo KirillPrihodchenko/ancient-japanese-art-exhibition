@@ -1,5 +1,6 @@
 package com.ancientjapaneseartexhibition.service;
 
+import com.ancientjapaneseartexhibition.exception.ImageNotFound;
 import com.ancientjapaneseartexhibition.model.Image;
 import com.ancientjapaneseartexhibition.repository.ImageRepository;
 import com.ancientjapaneseartexhibition.s3.S3Service;
@@ -27,11 +28,34 @@ public class ImageService {
 
         String imageUrl = s3Service.getUrlToObject(bucketName, key);
 
+        checkExistsImage(image.getName());
         Image newImage = new Image();
         newImage.setName(image.getName());
         newImage.setUrl(imageUrl);
         newImage.setDescription(image.getDescription());
 
-        return imageRepository.save(image);
+        return imageRepository.save(newImage);
+    }
+
+    public Image updateImage(Image image) {
+
+        checkExistsImage(image.getName());
+        Image updatedImage = imageRepository.updateImageByName(
+                image.getName(),
+                image.getUrl(),
+                image.getDescription()
+        );
+
+        return imageRepository.save(updatedImage);
+    }
+
+    private void checkExistsImage(String name) {
+
+        imageRepository.findImageByName(name)
+                .orElseThrow(
+                        () -> new ImageNotFound(
+                                String.format("Image with name '%s' doesn't exist", name)
+                        )
+                );
     }
 }
