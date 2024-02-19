@@ -1,7 +1,10 @@
 package com.ancientjapaneseartexhibition.controller;
 
+<<<<<<< HEAD
 import com.ancientjapaneseartexhibition.s3.S3Service;
 import com.ancientjapaneseartexhibition.util.S3BucketName;
+=======
+>>>>>>> origin/main
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,12 +22,15 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/v1/uploads")
 public class S3Controller {
 
+<<<<<<< HEAD
     private final S3Service s3Service;
 
     public S3Controller(S3Service s3Service) {
         this.s3Service = s3Service;
     }
 
+=======
+>>>>>>> origin/main
     /**
      * @param file MultipartFile representing the image to be loaded.
      * @return ResponseEntity with the result of the upload.
@@ -34,11 +40,18 @@ public class S3Controller {
             value = "/",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
+<<<<<<< HEAD
     public ResponseEntity<?> uploadImageIntoS3PopUp(
             @RequestParam("image") MultipartFile file) {
 
         return new ResponseEntity<>(
                 s3Service.putObject(S3BucketName.BUCKET_NAME, );
+=======
+    public ResponseEntity<?> uploadImageIntoS3(
+            @RequestParam("image") MultipartFile file) {
+
+        return new ResponseEntity<>(
+>>>>>>> origin/main
         );
     }
 
