@@ -12,8 +12,6 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
 @Service
 public class S3Service {
@@ -24,17 +22,17 @@ public class S3Service {
         this.s3Client = s3Client;
     }
 
-    public void putObject(String bucketName, String key, File file) {
+    public void putObject(String bucketName, String key, byte[] file) {
 
         PutObjectRequest objectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
                 .key(key)
                 .build();
 
-        s3Client.putObject(objectRequest, RequestBody.fromFile(file));
+        s3Client.putObject(objectRequest, RequestBody.fromBytes(file));
     }
 
-    public File getObject(String bucketName, String key) {
+    public byte[] getObject(String bucketName, String key) {
 
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                 .bucket(bucketName)
@@ -43,10 +41,7 @@ public class S3Service {
 
         try (ResponseInputStream<GetObjectResponse> res = s3Client.getObject(getObjectRequest)) {
 
-            File file = new File(key);
-            Files.copy(res, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-            return file;
+            return res.readAllBytes();
         }
         catch (IOException e) {
 

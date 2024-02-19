@@ -2,8 +2,9 @@ package com.ancientjapaneseartexhibition.model;
 
 public enum eRole {
 
-    ROLE_ADMIN("ADMIN"),
-    ROLE_USER("USER");
+    ROLE_ADMIN("ROLE_ADMIN"),
+    ROLE_DEV("ROLE_DEVELOPER"),
+    ROLE_USER("ROLE_USER");
 
     private String roleProperty;
 

@@ -19,23 +19,23 @@ public class AncientJapaneseArtExhibitionApplication {
     CommandLineRunner runner(S3Service s3Service) {
 
         return smth -> {
-            doFakeExample(s3Service);
+            //doFakeExample(s3Service);
         };
     }
 
-    private static void doFakeExample(S3Service s3Service) {
-        s3Service.putObject(
-                "acient-japanese-exhibition",
-                "japan",
-                new File("\\ancient-japanese-art-exhibition\\file")
-
-        );
-
-        File object = s3Service.getObject(
-                "acient-japanese-exhibition",
-                "japan"
-        );
-
-        System.out.println("File has uploaded successfully!");
-    }
+//    private static void doFakeExample(S3Service s3Service) {
+//        s3Service.putObject(
+//                "acient-japanese-exhibition",
+//                "japan",
+//                new File("\\ancient-japanese-art-exhibition\\file")
+//
+//        );
+//
+//        byte[] object = s3Service.getObject(
+//                "acient-japanese-exhibition",
+//                "japan"
+//        );
+//
+//        System.out.println("File has uploaded successfully!");
+//    }
 }
